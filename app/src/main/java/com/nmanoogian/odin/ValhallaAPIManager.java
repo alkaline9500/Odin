@@ -1,8 +1,6 @@
 package com.nmanoogian.odin;
 
 
-import android.widget.Toast;
-
 /**
  * ValhallaAPIManager
  * Manages API calls
@@ -12,6 +10,17 @@ public class ValhallaAPIManager
 {
     final static String API_URL = "https://bluefile.org/share/valhalla.php";
     final static String API_KEY_NAME = "valhalla_key";
+    static String apiKey = "";
+
+    public static void setApiKey(String apiKey)
+    {
+        ValhallaAPIManager.apiKey = apiKey;
+    }
+
+    public static boolean apiKeyIsSet()
+    {
+        return !apiKey.equals("");
+    }
 
     public static void toggleGarage()
     {

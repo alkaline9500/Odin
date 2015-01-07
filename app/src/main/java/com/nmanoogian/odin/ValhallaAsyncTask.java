@@ -1,6 +1,8 @@
 package com.nmanoogian.odin;
 
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -33,7 +35,7 @@ public class ValhallaAsyncTask extends AsyncTask<Void, Void, Void>
     protected Void doInBackground(Void... params)
     {
         ArrayList<BasicNameValuePair> valuePairs = new ArrayList<>(2);
-        valuePairs.add(new BasicNameValuePair(ValhallaAPIManager.API_KEY_NAME, "4107981927romeoFrodo"));
+        valuePairs.add(new BasicNameValuePair(ValhallaAPIManager.API_KEY_NAME, ValhallaAPIManager.apiKey));
         valuePairs.add(new BasicNameValuePair("command", this.command));
         this.postData(ValhallaAPIManager.API_URL, valuePairs);
         return null;

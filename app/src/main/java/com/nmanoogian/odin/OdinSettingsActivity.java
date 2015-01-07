@@ -125,6 +125,11 @@ public class OdinSettingsActivity extends PreferenceActivity {
         public boolean onPreferenceChange(Preference preference, Object value) {
             String stringValue = value.toString();
 
+            if (preference.getKey().equals("prefAuthKey"))
+            {
+                ValhallaAPIManager.setApiKey((String)value);
+            }
+
             if (preference instanceof ListPreference) {
                 // For list preferences, look up the correct display value in
                 // the preference's 'entries' list.

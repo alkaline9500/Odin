@@ -1,5 +1,7 @@
 package com.nmanoogian.odin;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.content.Intent;
@@ -17,6 +19,10 @@ public class OdinMainActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        ValhallaAPIManager.setApiKey(preferences.getString("prefAuthKey", ""));
+
         setContentView(R.layout.activity_odin_main);
         final Button garageButton = (Button) findViewById(R.id.garage_button);
         garageButton.setOnClickListener(new OnClickListener() {
