@@ -2,6 +2,7 @@ package com.nmanoogian.odin;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 
 
 public class OdinMainActivity extends ActionBarActivity {
+    private static final int RESULT_SETTINGS = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +83,8 @@ public class OdinMainActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent i = new Intent(this, OdinSettingsActivity.class);
+            startActivityForResult(i, RESULT_SETTINGS);
             return true;
         }
 
