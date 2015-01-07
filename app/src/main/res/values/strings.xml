@@ -4,5 +4,10 @@
     <string name="app_name">Odin</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="button_text_toggle_light">Toggle Light</string>
+    <string name="button_text_off_fan">Off Fan</string>
+    <string name="button_text_low_fan">Low Fan</string>
+    <string name="button_text_high_fan">High Fan</string>
+    <string name="button_text_garage">Garage</string>
 
 </resources>
