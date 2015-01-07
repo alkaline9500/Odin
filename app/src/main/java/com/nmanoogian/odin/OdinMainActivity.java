@@ -28,8 +28,13 @@ public class OdinMainActivity extends ActionBarActivity {
         garageButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                ValhallaAPIManager.toggleGarage();
-                Toast.makeText(getApplicationContext(), "Toggled garage door.", Toast.LENGTH_LONG).show();
+                if (ValhallaAPIManager.apiKeyIsSet()) {
+                    ValhallaAPIManager.toggleGarage();
+                    Toast.makeText(getApplicationContext(), "Toggled garage door.", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "API Key is not set.", Toast.LENGTH_LONG).show();
+                }
             }
         });
 
@@ -37,8 +42,13 @@ public class OdinMainActivity extends ActionBarActivity {
         lightButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                ValhallaAPIManager.toggleLight();
-                Toast.makeText(getApplicationContext(), "Toggled room light.", Toast.LENGTH_LONG).show();
+                if (ValhallaAPIManager.apiKeyIsSet()) {
+                    ValhallaAPIManager.toggleLight();
+                    Toast.makeText(getApplicationContext(), "Toggled room light.", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "API Key is not set.", Toast.LENGTH_LONG).show();
+                }
             }
         });
 
@@ -46,8 +56,13 @@ public class OdinMainActivity extends ActionBarActivity {
         offFanButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                ValhallaAPIManager.setOffFan();
-                Toast.makeText(getApplicationContext(), "Set fan off.", Toast.LENGTH_LONG).show();
+                if (ValhallaAPIManager.apiKeyIsSet()) {
+                    ValhallaAPIManager.setOffFan();
+                    Toast.makeText(getApplicationContext(), "Set fan off.", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "API Key is not set.", Toast.LENGTH_LONG).show();
+                }
             }
         });
 
@@ -55,8 +70,13 @@ public class OdinMainActivity extends ActionBarActivity {
         lowFanButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                ValhallaAPIManager.setLowFan();
-                Toast.makeText(getApplicationContext(), "Set fan low.", Toast.LENGTH_LONG).show();
+                if (ValhallaAPIManager.apiKeyIsSet()) {
+                    ValhallaAPIManager.setLowFan();
+                    Toast.makeText(getApplicationContext(), "Set fan low.", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "API Key is not set.", Toast.LENGTH_LONG).show();
+                }
 
             }
         });
@@ -65,8 +85,13 @@ public class OdinMainActivity extends ActionBarActivity {
         highFanButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                ValhallaAPIManager.setHighFan();
-                Toast.makeText(getApplicationContext(), "Set fan high.", Toast.LENGTH_LONG).show();
+                if (ValhallaAPIManager.apiKeyIsSet()) {
+                    ValhallaAPIManager.setHighFan();
+                    Toast.makeText(getApplicationContext(), "Set fan high.", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "API Key is not set.", Toast.LENGTH_LONG).show();
+                }
 
             }
         });
