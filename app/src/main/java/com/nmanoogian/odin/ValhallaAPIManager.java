@@ -1,6 +1,5 @@
 package com.nmanoogian.odin;
 
-
 /**
  * ValhallaAPIManager
  * Manages API calls
@@ -22,28 +21,33 @@ public class ValhallaAPIManager
         return !apiKey.equals("");
     }
 
-    public static void toggleGarage()
+    public static void toggleGarage(ValhallaAsyncDelegate delegate)
     {
-        new ValhallaAsyncTask("garage").execute();
+        new ValhallaAsyncTask("garage", delegate).execute();
     }
 
-    public static void setOffFan()
+    public static void setOffFan(ValhallaAsyncDelegate delegate)
     {
-        new ValhallaAsyncTask("fanoff").execute();
+        new ValhallaAsyncTask("fanoff", delegate).execute();
     }
 
-    public static void setLowFan()
+    public static void setLowFan(ValhallaAsyncDelegate delegate)
     {
-        new ValhallaAsyncTask("fanlow").execute();
+        new ValhallaAsyncTask("fanlow", delegate).execute();
     }
 
-    public static void setHighFan()
+    public static void setHighFan(ValhallaAsyncDelegate delegate)
     {
-        new ValhallaAsyncTask("fanhigh").execute();
+        new ValhallaAsyncTask("fanhigh", delegate).execute();
     }
 
-    public static void toggleLight()
+    public static void toggleLight(ValhallaAsyncDelegate delegate)
     {
-        new ValhallaAsyncTask("toggle").execute();
+        new ValhallaAsyncTask("toggle", delegate).execute();
+    }
+
+    public static void refresh(ValhallaAsyncDelegate delegate)
+    {
+        new ValhallaAsyncTask(null, delegate).execute();
     }
 }

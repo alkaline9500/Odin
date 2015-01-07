@@ -9,5 +9,6 @@
     <string name="button_text_low_fan">Low Fan</string>
     <string name="button_text_high_fan">High Fan</string>
     <string name="button_text_garage">Garage</string>
+    <string name="button_text_refresh">Refresh Data</string>
 
 </resources>

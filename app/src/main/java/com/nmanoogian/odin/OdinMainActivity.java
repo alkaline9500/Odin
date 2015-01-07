@@ -1,6 +1,8 @@
 package com.nmanoogian.odin;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -13,8 +15,15 @@ import android.view.View.OnClickListener;
 import android.widget.Toast;
 
 
-public class OdinMainActivity extends ActionBarActivity {
+public class OdinMainActivity extends ActionBarActivity implements ValhallaAsyncDelegate {
     private static final int RESULT_SETTINGS = 1;
+    private Button garageButton;
+    private Button offFanButton;
+    private Button highFanButton;
+    private Button lowFanButton;
+    private Button lightButton;
+    private Button refreshButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,75 +33,58 @@ public class OdinMainActivity extends ActionBarActivity {
         ValhallaAPIManager.setApiKey(preferences.getString("prefAuthKey", ""));
 
         setContentView(R.layout.activity_odin_main);
-        final Button garageButton = (Button) findViewById(R.id.garage_button);
-        garageButton.setOnClickListener(new OnClickListener() {
+        this.garageButton = (Button) findViewById(R.id.garage_button);
+        this.garageButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ValhallaAPIManager.apiKeyIsSet()) {
-                    ValhallaAPIManager.toggleGarage();
-                    Toast.makeText(getApplicationContext(), "Toggled garage door.", Toast.LENGTH_LONG).show();
-                }
-                else {
-                    Toast.makeText(getApplicationContext(), "API Key is not set.", Toast.LENGTH_LONG).show();
-                }
+                ValhallaAPIManager.toggleGarage(OdinMainActivity.this);
+                OdinMainActivity.this.garageButton.setEnabled(false);
             }
         });
 
-        final Button lightButton = (Button) findViewById(R.id.toggle_light_button);
-        lightButton.setOnClickListener(new OnClickListener() {
+        this.lightButton = (Button) findViewById(R.id.toggle_light_button);
+        this.lightButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ValhallaAPIManager.apiKeyIsSet()) {
-                    ValhallaAPIManager.toggleLight();
-                    Toast.makeText(getApplicationContext(), "Toggled room light.", Toast.LENGTH_LONG).show();
-                }
-                else {
-                    Toast.makeText(getApplicationContext(), "API Key is not set.", Toast.LENGTH_LONG).show();
-                }
+                ValhallaAPIManager.toggleLight(OdinMainActivity.this);
+                OdinMainActivity.this.lightButton.setEnabled(false);
             }
         });
 
-        final Button offFanButton = (Button) findViewById(R.id.off_fan_button);
-        offFanButton.setOnClickListener(new OnClickListener() {
+        this.offFanButton = (Button) findViewById(R.id.off_fan_button);
+        this.offFanButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ValhallaAPIManager.apiKeyIsSet()) {
-                    ValhallaAPIManager.setOffFan();
-                    Toast.makeText(getApplicationContext(), "Set fan off.", Toast.LENGTH_LONG).show();
-                }
-                else {
-                    Toast.makeText(getApplicationContext(), "API Key is not set.", Toast.LENGTH_LONG).show();
-                }
+                ValhallaAPIManager.setOffFan(OdinMainActivity.this);
+                OdinMainActivity.this.offFanButton.setEnabled(false);
             }
         });
 
-        final Button lowFanButton = (Button) findViewById(R.id.low_fan_button);
-        lowFanButton.setOnClickListener(new OnClickListener() {
+        this.lowFanButton = (Button) findViewById(R.id.low_fan_button);
+        this.lowFanButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ValhallaAPIManager.apiKeyIsSet()) {
-                    ValhallaAPIManager.setLowFan();
-                    Toast.makeText(getApplicationContext(), "Set fan low.", Toast.LENGTH_LONG).show();
-                }
-                else {
-                    Toast.makeText(getApplicationContext(), "API Key is not set.", Toast.LENGTH_LONG).show();
-                }
+                ValhallaAPIManager.setLowFan(OdinMainActivity.this);
+                OdinMainActivity.this.lowFanButton.setEnabled(false);
 
             }
         });
 
-        final Button highFanButton = (Button) findViewById(R.id.high_fan_button);
-        highFanButton.setOnClickListener(new OnClickListener() {
+        this.highFanButton = (Button) findViewById(R.id.high_fan_button);
+        this.highFanButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ValhallaAPIManager.apiKeyIsSet()) {
-                    ValhallaAPIManager.setHighFan();
-                    Toast.makeText(getApplicationContext(), "Set fan high.", Toast.LENGTH_LONG).show();
-                }
-                else {
-                    Toast.makeText(getApplicationContext(), "API Key is not set.", Toast.LENGTH_LONG).show();
-                }
+                ValhallaAPIManager.setHighFan(OdinMainActivity.this);
+                OdinMainActivity.this.highFanButton.setEnabled(false);
+            }
+        });
 
+        this.refreshButton = (Button) findViewById(R.id.refresh_button);
+        this.refreshButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ValhallaAPIManager.refresh(OdinMainActivity.this);
+                OdinMainActivity.this.refreshButton.setEnabled(false);
             }
         });
     }
@@ -120,5 +112,72 @@ public class OdinMainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void didFinishTask(ValhallaResponse response)
+    {
+
+        // Reset buttons
+        this.garageButton.setEnabled(true);
+        this.offFanButton.setEnabled(true);
+        this.lowFanButton.setEnabled(true);
+        this.highFanButton.setEnabled(true);
+        this.refreshButton.setEnabled(true);
+        this.lightButton.setEnabled(true);
+        
+        // Null response means some kind of failure
+        if (response == null )
+        {
+            Toast.makeText(getApplicationContext(), "There was a problem.", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        // Success
+
+        // We got a response back
+        if (response.getResponse() != null)
+        {
+            Toast.makeText(getApplicationContext(), response.getResponse(), Toast.LENGTH_LONG).show();
+        }
+
+        // Request reached server, but then there was a problem
+        if (!response.isSuccess()) return;
+
+        // Just data
+        if (response.isLightOn())
+        {
+            this.lightButton.setBackgroundColor(Color.YELLOW);
+        }
+        else
+        {
+            this.lightButton.setBackgroundColor(Color.LTGRAY);
+        }
+
+        switch (response.getFanStatus())
+        {
+            case 0:
+                this.offFanButton.setTypeface(null, Typeface.BOLD);
+                this.lowFanButton.setTypeface(null, Typeface.NORMAL);
+                this.highFanButton.setTypeface(null, Typeface.NORMAL);
+                break;
+            case 1:
+                this.offFanButton.setTypeface(null, Typeface.NORMAL);
+                this.lowFanButton.setTypeface(null, Typeface.BOLD);
+                this.highFanButton.setTypeface(null, Typeface.NORMAL);
+                break;
+            case 3:
+                this.offFanButton.setTypeface(null, Typeface.NORMAL);
+                this.lowFanButton.setTypeface(null, Typeface.NORMAL);
+                this.highFanButton.setTypeface(null, Typeface.BOLD);
+                break;
+            default:
+                this.offFanButton.setTypeface(null, Typeface.NORMAL);
+                this.lowFanButton.setTypeface(null, Typeface.NORMAL);
+                this.highFanButton.setTypeface(null, Typeface.NORMAL);
+                break;
+
+        }
+
     }
 }

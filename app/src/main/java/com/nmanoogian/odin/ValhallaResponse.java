@@ -10,6 +10,7 @@ import org.json.JSONObject;
 public class ValhallaResponse
 {
     private boolean success;
+    private String response;
     private boolean lightOn;
     private int lightLevel;
     private double temp;
@@ -19,12 +20,20 @@ public class ValhallaResponse
     public ValhallaResponse(JSONObject jsonObject) throws JSONException
     {
         this.success = jsonObject.getBoolean("success");
-        JSONObject dataObject = jsonObject.getJSONObject("data");
-        this.lightOn = dataObject.getBoolean("light");
-        this.lightLevel = dataObject.getInt("lightAcc");
-        this.temp = dataObject.getDouble("temp");
-        this.fanStatus = dataObject.getInt("fan");
-        this.autoMode = dataObject.getBoolean("auto");
+        if (this.success)
+        {
+            JSONObject dataObject = jsonObject.getJSONObject("data");
+            this.lightOn = dataObject.getBoolean("light");
+            this.lightLevel = dataObject.getInt("lightAcc");
+            this.temp = dataObject.getDouble("temp");
+            this.fanStatus = dataObject.getInt("fan");
+            this.autoMode = dataObject.getBoolean("auto");
+        }
+
+        if (jsonObject.has("response"))
+        {
+            this.response = jsonObject.getString("response");
+        }
     }
 
     public boolean isSuccess() {
@@ -49,5 +58,9 @@ public class ValhallaResponse
 
     public boolean isAutoMode() {
         return autoMode;
+    }
+
+    public String getResponse() {
+        return response;
     }
 }
