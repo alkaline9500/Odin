@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Button;
 import android.view.View.OnClickListener;
 import android.widget.Toast;
@@ -23,6 +24,7 @@ public class OdinMainActivity extends ActionBarActivity implements ValhallaAsync
     private Button lowFanButton;
     private Button lightButton;
     private Button refreshButton;
+    private TextView tempTextView;
 
 
     @Override
@@ -33,6 +35,8 @@ public class OdinMainActivity extends ActionBarActivity implements ValhallaAsync
         ValhallaAPIManager.setApiKey(preferences.getString("prefAuthKey", ""));
 
         setContentView(R.layout.activity_odin_main);
+        this.tempTextView = (TextView) findViewById(R.id.tempTextView);
+
         this.garageButton = (Button) findViewById(R.id.garage_button);
         this.garageButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -87,6 +91,9 @@ public class OdinMainActivity extends ActionBarActivity implements ValhallaAsync
                 OdinMainActivity.this.refreshButton.setEnabled(false);
             }
         });
+
+        // Initial refresh.
+        ValhallaAPIManager.refresh(OdinMainActivity.this);
     }
 
 
@@ -125,7 +132,7 @@ public class OdinMainActivity extends ActionBarActivity implements ValhallaAsync
         this.highFanButton.setEnabled(true);
         this.refreshButton.setEnabled(true);
         this.lightButton.setEnabled(true);
-        
+
         // Null response means some kind of failure
         if (response == null )
         {
@@ -178,6 +185,8 @@ public class OdinMainActivity extends ActionBarActivity implements ValhallaAsync
                 break;
 
         }
+
+        this.tempTextView.setText(String.format("%.2f °F", response.getTemp()));
 
     }
 }

@@ -22,30 +22,29 @@
         android:layout_height="wrap_content"
         android:text="@string/button_text_off_fan"
         android:id="@+id/off_fan_button"
-        android:layout_marginTop="34dp"
-        android:layout_below="@+id/garage_button"
+        android:layout_above="@+id/low_fan_button"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/garage_button"
-        android:layout_alignEnd="@+id/garage_button" />
+        android:layout_alignRight="@+id/low_fan_button"
+        android:layout_alignEnd="@+id/low_fan_button" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/button_text_low_fan"
         android:id="@+id/low_fan_button"
-        android:layout_below="@+id/off_fan_button"
+        android:layout_above="@+id/high_fan_button"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/off_fan_button"
-        android:layout_alignEnd="@+id/off_fan_button" />
+        android:layout_alignParentStart="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/button_text_high_fan"
         android:id="@+id/high_fan_button"
-        android:layout_below="@+id/low_fan_button"
+        android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
@@ -74,5 +73,15 @@
         android:layout_alignParentStart="true"
         android:layout_alignRight="@+id/toggle_light_button"
         android:layout_alignEnd="@+id/toggle_light_button" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/default_temp_text"
+        android:id="@+id/tempTextView"
+        android:textColor="#ff000000"
+        android:layout_above="@+id/off_fan_button"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
