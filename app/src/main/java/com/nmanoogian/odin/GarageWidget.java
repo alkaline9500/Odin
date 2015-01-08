@@ -1,46 +1,74 @@
 package com.nmanoogian.odin;
 
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.widget.RemoteViews;
+import android.widget.Toast;
 
 
 /**
  * Implementation of App Widget functionality.
  */
-public class GarageWidget extends AppWidgetProvider {
+public class GarageWidget extends AppWidgetProvider implements ValhallaAsyncDelegate {
+    public static String GARAGE_TOGGLE_ACTION = "ToggleGarage";
 
     @Override
-    public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        // There may be multiple widgets active, so update all of them
+    public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds)
+    {
         final int N = appWidgetIds.length;
-        for (int i = 0; i < N; i++) {
-            updateAppWidget(context, appWidgetManager, appWidgetIds[i]);
+
+        // Perform this loop procedure for each App Widget that belongs to this provider
+        for (int i = 0; i < N; i++)
+        {
+            int appWidgetId = appWidgetIds[i];
+
+            // Create an Intent to launch ExampleActivity
+            Intent intent = new Intent(context, GarageWidget.class);
+            intent.setAction(GARAGE_TOGGLE_ACTION);
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+
+            // Get the layout for the App Widget and attach an on-click listener to the button
+            RemoteViews views = new RemoteViews(context.getPackageName(), R.id.garage_widget_layout);
+            views.setOnClickPendingIntent(R.id.garage_widget_toggle_button, pendingIntent);
+
+            // Tell the AppWidgetManager to perform an update on the current App Widget
+            appWidgetManager.updateAppWidget(appWidgetId, views);
         }
     }
 
 
     @Override
-    public void onEnabled(Context context) {
-        // Enter relevant functionality for when the first widget is created
+    public void onReceive(Context context, Intent intent)
+    {
+        super.onReceive(context, intent);
+        if (intent.getAction().equals(GARAGE_TOGGLE_ACTION))
+        {
+            Toast.makeText(context, "There was a problem.", Toast.LENGTH_LONG).show();
+//            ValhallaAPIManager.toggleGarage(this);
+        }
     }
 
     @Override
-    public void onDisabled(Context context) {
-        // Enter relevant functionality for when the last widget is disabled
-    }
+    public void didFinishTask(ValhallaResponse response)
+    {
+        // Null response means some kind of failure
+        if (response == null )
+        {
+//            Toast.makeText(this.lastContext, "There was a problem.", Toast.LENGTH_LONG).show();
+            return;
+        }
 
-    static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
-                                int appWidgetId) {
+        // Success
 
-        CharSequence widgetText = context.getString(R.string.appwidget_text);
-        // Construct the RemoteViews object
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.garage_widget);
-        views.setTextViewText(R.id.appwidget_text, widgetText);
-
-        // Instruct the widget manager to update the widget
-        appWidgetManager.updateAppWidget(appWidgetId, views);
+        // We got a response back
+        if (response.getResponse() != null)
+        {
+//            Toast.makeText(this.lastContext, response.getResponse(), Toast.LENGTH_LONG).show();
+        }
     }
 }
 
