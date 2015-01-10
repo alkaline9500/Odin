@@ -26,7 +26,6 @@ public class OdinMainActivity extends ActionBarActivity implements ValhallaAsync
     private Button refreshButton;
     private TextView tempTextView;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,7 +94,6 @@ public class OdinMainActivity extends ActionBarActivity implements ValhallaAsync
         // Initial refresh.
         ValhallaAPIManager.refresh(OdinMainActivity.this);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -187,6 +185,6 @@ public class OdinMainActivity extends ActionBarActivity implements ValhallaAsync
         }
 
         this.tempTextView.setText(String.format("%.2f °F", response.getTemp()));
-
     }
+
 }
