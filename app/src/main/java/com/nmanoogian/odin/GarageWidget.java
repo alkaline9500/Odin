@@ -16,9 +16,8 @@ import java.util.logging.Logger;
 /**
  * Implementation of App Widget functionality.
  */
-public class GarageWidget extends AppWidgetProvider { //implements ValhallaAsyncDelegate {
+public class GarageWidget extends AppWidgetProvider implements ValhallaAsyncDelegate {
     public static String GARAGE_TOGGLE_ACTION = "com.nmanoogian.WIDGET_TOGGLE_GARAGE";
-    Logger l = Logger.getGlobal();
     private Context currentContext;
 
     @Override
@@ -46,14 +45,10 @@ public class GarageWidget extends AppWidgetProvider { //implements ValhallaAsync
     public void onReceive(Context context, Intent intent)
     {
         super.onReceive(context, intent);
-        l.log(Level.INFO, "nonspecific onReceive : " + intent.getAction());
-
         if (intent.getAction().equals(GARAGE_TOGGLE_ACTION))
         {
-            l.log(Level.INFO, "specific onReceive");
-            Toast.makeText(context, "Got a GARAGE_TOGGLE onReceive", Toast.LENGTH_LONG).show();
             this.currentContext = context;
-//            ValhallaAPIManager.toggleGarage(this);
+            ValhallaAPIManager.toggleGarage(this);
         }
     }
 
